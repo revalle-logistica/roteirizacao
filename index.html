@@ -9,12 +9,14 @@
 <body>
 <div class="l" id="l"><div class="s"></div>Carregando a Central de Demandas…</div>
 <script>
-const API_URL="https://script.google.com/macros/s/AKfycbwWW1WUryd-xhOrZI6esjIuAB71Km_lg8wqtC5p6lpSRIOCRTKO6v4WTVqT6DLTXoOx/exec";
+(function(){
+const U="https://script.google.com/macros/s/AKfycbwWW1WUryd-xhOrZI6esjIuAB71Km_lg8wqtC5p6lpSRIOCRTKO6v4WTVqT6DLTXoOx/exec";
 const RUN='async function run(fn, ...args){ let r; try{ r = await fetch(API_URL, {method:"POST", body:JSON.stringify({fn, args}), headers:{"Content-Type":"text/plain;charset=utf-8"}, credentials:"omit"}); }catch(e){ throw new Error("Sem conexão com o servidor"); } let j; try{ j = await r.json(); }catch(e){ throw new Error("Resposta inválida do servidor"); } if(!j.ok) throw new Error(j.error||"Erro"); return j.data; }';
-fetch(API_URL+"?raw=1",{credentials:"omit"}).then(r=>r.text()).then(h=>{
-  h=h.replace('<base target="_top">','').replace(/const run = \(fn, \.\.\.args\) => new Promise\([^\n]*\n/, 'const API_URL="'+API_URL+'";\n'+RUN+'\n');
+fetch(U+"?raw=1",{credentials:"omit"}).then(r=>r.text()).then(h=>{
+  h=h.replace('<base target="_top">','').replace(/const run = \(fn, \.\.\.args\) => new Promise\([^\n]*\n/, 'const API_URL="'+U+'";\n'+RUN+'\n');
   document.open(); document.write(h); document.close();
 }).catch(()=>{ document.getElementById("l").textContent="Não foi possível carregar. Verifique a internet e atualize a página."; });
+})();
 </script>
 </body>
 </html>
