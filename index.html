@@ -17,7 +17,7 @@ const prep=h=>h.replace('<base target="_top">','').replace(/const run = \(fn, \.
 const mostra=h=>{ document.open(); document.write(h); document.close(); };
 let cache=null; try{ cache=localStorage.getItem(K); }catch(e){}
 // abre na hora com a versão guardada no aparelho; a nova versão é baixada em segundo plano
-if(cache) mostra(prep(cache));
+if(cache){ const go=()=>mostra(prep(cache)); if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",()=>setTimeout(go,0)); else setTimeout(go,0); }
 fetch(U+"?raw=1",{credentials:"omit",cache:"no-store"}).then(r=>{ if(!r.ok) throw 0; return r.text(); }).then(h=>{
   if(!/<html/i.test(h)) throw 0;
   if(h===cache) return;
