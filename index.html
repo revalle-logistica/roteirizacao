@@ -11,11 +11,25 @@
 <script>
 (function(){
 const U="https://script.google.com/macros/s/AKfycbwWW1WUryd-xhOrZI6esjIuAB71Km_lg8wqtC5p6lpSRIOCRTKO6v4WTVqT6DLTXoOx/exec";
+const K="cd_app_html";
 const RUN='async function run(fn, ...args){ let r; try{ r = await fetch(API_URL, {method:"POST", body:JSON.stringify({fn, args}), headers:{"Content-Type":"text/plain;charset=utf-8"}, credentials:"omit"}); }catch(e){ throw new Error("Sem conexão com o servidor"); } let j; try{ j = await r.json(); }catch(e){ throw new Error("Resposta inválida do servidor"); } if(!j.ok) throw new Error(j.error||"Erro"); return j.data; }';
-fetch(U+"?raw=1",{credentials:"omit"}).then(r=>r.text()).then(h=>{
-  h=h.replace('<base target="_top">','').replace(/const run = \(fn, \.\.\.args\) => new Promise\([^\n]*\n/, 'const API_URL="'+U+'";\n'+RUN+'\n');
-  document.open(); document.write(h); document.close();
-}).catch(()=>{ document.getElementById("l").textContent="Não foi possível carregar. Verifique a internet e atualize a página."; });
+const prep=h=>h.replace('<base target="_top">','').replace(/const run = \(fn, \.\.\.args\) => new Promise\([^\n]*\n/, 'const API_URL="'+U+'";\n'+RUN+'\n');
+const mostra=h=>{ document.open(); document.write(h); document.close(); };
+let cache=null; try{ cache=localStorage.getItem(K); }catch(e){}
+// abre na hora com a versão guardada no aparelho; a nova versão é baixada em segundo plano
+if(cache) mostra(prep(cache));
+fetch(U+"?raw=1",{credentials:"omit",cache:"no-store"}).then(r=>{ if(!r.ok) throw 0; return r.text(); }).then(h=>{
+  if(!/<html/i.test(h)) throw 0;
+  if(h===cache) return;
+  try{ localStorage.setItem(K,h); }catch(e){ try{ localStorage.removeItem(K); }catch(_){} }
+  if(!cache){ mostra(prep(h)); return; }
+  // já está aberta a versão antiga: avisa que tem atualização
+  const b=document.createElement("div");
+  b.textContent="🔄 Nova versão da Central disponível — toque aqui para atualizar";
+  b.style.cssText="position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:99999;background:#0b3a6f;color:#fff;padding:10px 16px;border-radius:12px;font:600 14px system-ui,sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.25);cursor:pointer;max-width:92vw;text-align:center";
+  b.onclick=()=>location.reload();
+  (document.body||document.documentElement).appendChild(b);
+}).catch(()=>{ if(!cache){ const l=document.getElementById("l"); if(l) l.textContent="Não foi possível carregar. Verifique a internet e atualize a página."; } });
 })();
 </script>
 </body>
