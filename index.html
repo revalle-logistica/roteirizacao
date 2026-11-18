@@ -1,36 +1,7 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="utf-8">
+<html lang="pt-BR"><head><meta charset="utf-8"><title>TCD · Torre de Controle da Distribuição</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Central de Demandas · Roteirização</title>
-<style>body{margin:0;font-family:system-ui,Segoe UI,Roboto,sans-serif;background:#f4f6f9;color:#14202e;display:flex;align-items:center;justify-content:center;height:100vh}.l{text-align:center;color:#667385}.s{width:34px;height:34px;border:4px solid #dfe6f0;border-top-color:#0b3a6f;border-radius:50%;margin:0 auto 12px;animation:r 1s linear infinite}@keyframes r{to{transform:rotate(360deg)}}</style>
-</head>
-<body>
-<div class="l" id="l"><div class="s"></div>Carregando a Central de Demandas…</div>
-<script>
-(function(){
-const U="https://script.google.com/macros/s/AKfycbwWW1WUryd-xhOrZI6esjIuAB71Km_lg8wqtC5p6lpSRIOCRTKO6v4WTVqT6DLTXoOx/exec";
-const K="cd_app_html";
-const RUN='async function run(fn, ...args){ let r; try{ r = await fetch(API_URL, {method:"POST", body:JSON.stringify({fn, args}), headers:{"Content-Type":"text/plain;charset=utf-8"}, credentials:"omit"}); }catch(e){ throw new Error("Sem conexão com o servidor"); } let j; try{ j = await r.json(); }catch(e){ throw new Error("Resposta inválida do servidor"); } if(!j.ok) throw new Error(j.error||"Erro"); return j.data; }';
-const prep=h=>h.replace('<base target="_top">','').replace(/const run = \(fn, \.\.\.args\) => new Promise\([^\n]*\n/, 'const API_URL="'+U+'";\n'+RUN+'\n');
-const mostra=h=>{ document.open(); document.write(h); document.close(); };
-let cache=null; try{ cache=localStorage.getItem(K); }catch(e){}
-// abre na hora com a versão guardada no aparelho; a nova versão é baixada em segundo plano
-if(cache){ const go=()=>mostra(prep(cache)); if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",()=>setTimeout(go,0)); else setTimeout(go,0); }
-fetch(U+"?raw=1",{credentials:"omit",cache:"no-store"}).then(r=>{ if(!r.ok) throw 0; return r.text(); }).then(h=>{
-  if(!/<html/i.test(h)) throw 0;
-  if(h===cache) return;
-  try{ localStorage.setItem(K,h); }catch(e){ try{ localStorage.removeItem(K); }catch(_){} }
-  if(!cache){ mostra(prep(h)); return; }
-  // já está aberta a versão antiga: avisa que tem atualização
-  const b=document.createElement("div");
-  b.textContent="🔄 Nova versão da Central disponível — toque aqui para atualizar";
-  b.style.cssText="position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:99999;background:#0b3a6f;color:#fff;padding:10px 16px;border-radius:12px;font:600 14px system-ui,sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.25);cursor:pointer;max-width:92vw;text-align:center";
-  b.onclick=()=>location.reload();
-  (document.body||document.documentElement).appendChild(b);
-}).catch(()=>{ if(!cache){ const l=document.getElementById("l"); if(l) l.textContent="Não foi possível carregar. Verifique a internet e atualize a página."; } });
-})();
-</script>
-</body>
-</html>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%20aria-hidden%3D%22true%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%227%22%20fill%3D%22%230b3a6f%22/%3E%3Cpath%20d%3D%22M16%201.5v4%22%20stroke%3D%22%23fbbf24%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22/%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%221.8%22%20r%3D%221.3%22%20fill%3D%22%23fbbf24%22/%3E%3Cpath%20d%3D%22M9.5%206h13l2.5%203.2H7z%22%20fill%3D%22%23fff%22/%3E%3Cpath%20d%3D%22M7%209.8h18l-2.4%205.2H9.4z%22%20fill%3D%22%237cc4ff%22/%3E%3Cpath%20d%3D%22M12.6%209.8l-.7%205.2M16%209.8v5.2M19.4%209.8l.7%205.2%22%20stroke%3D%22%230b3a6f%22%20stroke-width%3D%221%22/%3E%3Cpath%20d%3D%22M10.2%2015.6h11.6l-1%201.8h-9.6z%22%20fill%3D%22%23fff%22/%3E%3Cpath%20d%3D%22M13.3%2017.4h5.4l1%2011.1h-7.4z%22%20fill%3D%22%23fff%22/%3E%3Crect%20x%3D%229%22%20y%3D%2228.5%22%20width%3D%2214%22%20height%3D%222.4%22%20rx%3D%221%22%20fill%3D%22%23fff%22/%3E%3C/svg%3E">
+<meta http-equiv="refresh" content="0; url=https://revalle-logistica.github.io/tcd/">
+<script>location.replace("https://revalle-logistica.github.io/tcd/"+location.search+location.hash);</script>
+</head><body style="font-family:system-ui;text-align:center;padding:40px;color:#667385">A Central de Demandas agora é a <b>TCD · Torre de Controle da Distribuição</b>.<br><a href="https://revalle-logistica.github.io/tcd/">Abrir a TCD</a></body></html>
